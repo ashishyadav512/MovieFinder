@@ -1,7 +1,9 @@
-import Image from "next/image"
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { MovieIcon } from "@/components/movie-icon"
+import Image from "next/image" // Import Image component
 
 export default function HomePage() {
   return (
