@@ -1,30 +1,120 @@
-# Next.js Movie App
+# 🎬 MovieFinder
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+**MovieFinder** is a modern, responsive web application built with **Next.js** and **TypeScript** that allows users to search, filter, and rate movies. With a sleek UI, dark mode support, and smooth animations, it offers an engaging experience powered by the **OMDB API**.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/ashishydv096gmailcoms-projects/v0-next-js-movie-app)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/0FCXUepF7E3)
+---
 
-## Overview
+## ✨ Features
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+- 🔍 **Movie Search** with debounced input
+- 📅 **Year Filter** via dropdown
+- 🎥 **Movie Details**: poster, rating, cast, plot & more
+- ⭐ **5-Star Rating System** (stored in `localStorage`)
+- 🌙 **Dark Mode Support**
+- 📱 **Responsive Design**
+- 🌀 **Framer Motion Animations**
+- ⚠️ **Loading & Error States**
 
-## Deployment
+---
 
-Your project is live at:
+## 🚀 Tech Stack
 
-**[https://vercel.com/ashishydv096gmailcoms-projects/v0-next-js-movie-app](https://vercel.com/ashishydv096gmailcoms-projects/v0-next-js-movie-app)**
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI**: shadcn/ui
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Data**: OMDB API
+- **Hooks**: Custom React Hooks
 
-## Build your app
+---
 
-Continue building your app on:
+## 🛠 Getting Started
 
-**[https://v0.dev/chat/projects/0FCXUepF7E3](https://v0.dev/chat/projects/0FCXUepF7E3)**
+### Prerequisites
 
-## How It Works
+- Node.js `18.x+`
+- npm / yarn / pnpm
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd moviefinder
+2. Install Dependencies
+bash
+Copy
+Edit
+npm install
+# or
+yarn install
+# or
+pnpm install
+3. Get an OMDB API Key
+Visit omdbapi.com/apikey.aspx
+
+Sign up and get a free key
+
+Add it in lib/api.ts:
+
+ts
+Copy
+Edit
+const API_KEY = "YOUR_OMDB_API_KEY_HERE";
+💡 For production, use environment variables instead of hardcoding.
+
+4. Run the Dev Server
+bash
+Copy
+Edit
+npm run dev
+Then visit http://localhost:3000 to explore.
+
+💡 Usage
+Search movies on the /movies page
+
+Filter by release year
+
+Click a movie to view details
+
+Rate with stars (saved locally)
+
+Toggle between light/dark mode
+
+📁 Project Structure
+graphql
+Copy
+Edit
+moviefinder/
+├── app/                    # App Router structure
+│   └── movies/             # List and detail pages
+├── components/             # UI components
+├── hooks/                  # Custom hooks
+├── lib/                    # API logic and utilities
+├── types/                  # TypeScript interfaces
+├── public/                 # Static assets
+├── styles/                 # Tailwind config and globals
+🔮 Future Enhancements
+🎭 Genre filter
+
+📄 Pagination
+
+👤 User accounts & auth
+
+🔍 Advanced search
+
+📺 Movie trailers
+
+♿ Accessibility improvements
+
+🧪 Testing suite
+
+📄 License
+This project is open-source and available under the MIT License.
+
+vbnet
+Copy
+Edit
+
+Let me know if you'd like a version with badges, screenshots, or deployment instructions!
