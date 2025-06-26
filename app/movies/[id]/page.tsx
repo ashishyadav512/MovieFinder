@@ -1,33 +1,50 @@
-import MovieClientPage from "./MovieClientPage"
 import { getMovieDetails } from "@/lib/api"
+import { notFound } from "next/navigation"
+import MovieClientPage from "./MovieClientPage"
+import type { Metadata } from "next"
 
-interface MoviePageProps {
+interface MovieDetailsPageProps {
   params: { id: string }
 }
 
-export default async function MoviePage({ params }: MoviePageProps) {
-  return <MovieClientPage params={params} />
-}
+export async function generateMetadata({ params }: MovieDetailsPageProps): Promise<Metadata> {
+  const movie = await getMovieDetails(params.id)
 
-export async function generateMetadata({ params }: MoviePageProps) {
-  const { id } = params
-
-  try {
-    const movie = await getMovieDetails(id)
-
-    if (!movie || movie.Response === "False") {
-      return {
-        title: "Movie Not Found",
-      }
-    }
-
-    return {
-      title: `${movie.Title} (${movie.Year}) - MovieFinder`,
-      description: movie.Plot,
-    }
-  } catch {
+  if (!movie) {
     return {
       title: "Movie Not Found",
+      description: "The requested movie could not be found.",
     }
   }
+
+  return {
+    title: `${movie.Title} (${movie.Year}) - MovieFinder`,
+    description: movie.Plot,
+    openGraph: {
+      title: `${movie.Title} (${movie.Year})`,
+      description: movie.Plot,
+      images: [
+        {
+          url: movie.Poster !== "N/A" ? movie.Poster : "/placeholder.svg",
+          alt: movie.Title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${movie.Title} (${movie.Year})`,
+      description: movie.Plot,
+      images: [movie.Poster !== "N/A" ? movie.Poster : "/placeholder.svg"],
+    },
+  }
+}
+
+export default async function MovieDetailsPage({ params }: MovieDetailsPageProps) {
+  const movie = await getMovieDetails(params.id)
+
+  if (!movie) {
+    notFound()
+  }
+
+  return <MovieClientPage movie={movie} />
 }

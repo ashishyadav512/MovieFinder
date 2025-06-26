@@ -1,69 +1,57 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react" // Import useMemo
+import { useState, useEffect, useMemo } from "react"
+import { Input } from "@/components/ui/input"
 import { MovieCard } from "@/components/movie-card"
-import { SearchBar } from "@/components/search-bar"
-import { LoadingSpinner } from "@/components/loading-spinner"
 import { useMovieSearch } from "@/hooks/use-movie-search"
-import { useDebounce } from "@/hooks/use-debounce"
-import { motion } from "framer-motion" // Import motion
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Import Select components
+import { LoadingSpinner } from "@/components/loading-spinner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { motion } from "framer-motion"
 
 export default function MoviesPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedYear, setSelectedYear] = useState<string | undefined>(undefined) // State for year filter
-  const debouncedSearchQuery = useDebounce(searchQuery, 500)
+  const [selectedYear, setSelectedYear] = useState<string | undefined>("all") // Updated default value
 
-  // Use useMovieSearch to get raw data from API
-  const { data: rawMovies, loading, error, searchMovies } = useMovieSearch()
+  const { movies, loading, error, errorMessage } = useMovieSearch(searchQuery, selectedYear)
 
-  // Filter movies client-side based on selectedYear
-  const filteredMovies = useMemo(() => {
-    if (!rawMovies) return []
-    if (!selectedYear || selectedYear === "undefined") {
-      return rawMovies
-    }
-    return rawMovies.filter((movie) => movie.Year === selectedYear)
-  }, [rawMovies, selectedYear])
-
-  useEffect(() => {
-    console.log("MoviesPage useEffect triggered. Query:", debouncedSearchQuery, "Selected Year:", selectedYear)
-    if (debouncedSearchQuery.trim()) {
-      // Pass selectedYear to searchMovies, OMDB will try to filter
-      searchMovies(debouncedSearchQuery, selectedYear)
-    } else {
-      // If no search query, clear movies
-      // Note: filteredMovies will also be empty if rawMovies is null
-    }
-  }, [debouncedSearchQuery, selectedYear, searchMovies])
-
+  // Generate years for the dropdown (e.g., last 50 years)
   const currentYear = new Date().getFullYear()
   const years = Array.from({ length: 50 }, (_, i) => (currentYear - i).toString())
+
+  // Client-side filtering for year, as OMDB's 'y' parameter can be inconsistent with 's'
+  const filteredMovies = useMemo(() => {
+    if (!movies) return []
+    if (selectedYear === "all") return movies // Updated condition
+
+    return movies.filter((movie) => movie.Year === selectedYear)
+  }, [movies, selectedYear])
+
+  useEffect(() => {
+    console.log(`MoviesPage useEffect triggered. Query: "${searchQuery}" Selected Year: "${selectedYear}"`)
+  }, [searchQuery, selectedYear])
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-8"
+      className="flex flex-col gap-8"
     >
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">Discover Movies</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Search through thousands of movies and find your next favorite film
-        </p>
-      </div>
-
-      <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
-        <div className="flex-grow">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search for movies..." />
-        </div>
-        <Select value={selectedYear} onValueChange={setSelectedYear}>
-          <SelectTrigger className="w-full sm:w-[180px] h-12 text-lg">
-            <SelectValue placeholder="All Years" />
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Input
+          type="text"
+          placeholder="Search for movies..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex-grow"
+          aria-label="Search movies by title"
+        />
+        <Select value={selectedYear || "all"} onValueChange={setSelectedYear} aria-label="Filter by year">
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Filter by Year" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="undefined">All Years</SelectItem>
+            <SelectItem value="all">All Years</SelectItem> {/* Updated value */}
             {years.map((year) => (
               <SelectItem key={year} value={year}>
                 {year}
@@ -74,57 +62,47 @@ export default function MoviesPage() {
       </div>
 
       {loading && (
-        <div className="flex justify-center py-12">
+        <div className="flex justify-center items-center h-64">
           <LoadingSpinner />
         </div>
       )}
 
       {error && (
-        <div className="text-center py-12 space-y-4">
-          <p className="text-destructive text-lg font-semibold">Search Error</p>
-          <p className="text-muted-foreground">{error}</p>
-          <div className="text-sm text-muted-foreground space-y-1">
-            <p>Troubleshooting tips:</p>
-            <ul className="list-disc list-inside space-y-1">
-              <li>Check if your OMDB API key is valid</li>
-              <li>Make sure the API key is set in environment variables</li>
-              <li>Try searching for popular movies like "Batman" or "Avengers"</li>
+        <div className="text-center text-red-500 text-lg p-4 border border-red-300 rounded-md bg-red-50">
+          <p className="font-semibold">Search Error</p>
+          <p>{errorMessage || "Failed to search movies."}</p>
+          <p className="mt-2 text-sm text-red-400">
+            Troubleshooting tips:
+            <ul className="list-disc list-inside mt-1">
+              <li>Check if your OMDB API key is valid.</li>
+              <li>Make sure the API key is set in `lib/api.ts`.</li>
+              <li>Try searching for popular movies like "Batman" or "Avengers".</li>
             </ul>
-          </div>
+          </p>
         </div>
       )}
 
-      {!loading &&
-        !error &&
-        searchQuery &&
-        filteredMovies.length === 0 && ( // Use filteredMovies here
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">
-              No movies found for "{searchQuery}" in {selectedYear !== "undefined" ? selectedYear : "all years"}
-            </p>
-          </div>
-        )}
-
-      {!searchQuery && !loading && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground text-lg">Start typing to search for movies</p>
+      {!loading && !error && filteredMovies.length === 0 && searchQuery.length > 0 && (
+        <div className="text-center text-gray-500 text-lg p-4">
+          No movies found for "{searchQuery}" {selectedYear !== "all" && `in ${selectedYear}`}. Please try a different
+          search term or year.
         </div>
       )}
 
-      {filteredMovies.length > 0 && ( // Use filteredMovies here
+      {!loading && !error && filteredMovies.length === 0 && searchQuery.length === 0 && (
+        <div className="text-center text-gray-500 text-lg p-4">Start by searching for a movie!</div>
+      )}
+
+      {!loading && !error && filteredMovies.length > 0 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          {filteredMovies.map(
-            (
-              movie, // Use filteredMovies here
-            ) => (
-              <MovieCard key={movie.imdbID} movie={movie} />
-            ),
-          )}
+          {filteredMovies.map((movie) => (
+            <MovieCard key={movie.imdbID} movie={movie} />
+          ))}
         </motion.div>
       )}
     </motion.div>

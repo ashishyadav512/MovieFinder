@@ -1,50 +1,44 @@
 "use client"
 
+import { useState } from "react"
 import { Star } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useMovieRating } from "@/hooks/use-movie-rating"
 
 interface StarRatingProps {
-  rating: number
-  onRatingChange?: (rating: number) => void
-  maxRating?: number
-  size?: "sm" | "md" | "lg"
-  readonly?: boolean
+  imdbID: string
 }
 
-export function StarRating({ rating, onRatingChange, maxRating = 5, size = "md", readonly = false }: StarRatingProps) {
-  const sizeClasses = {
-    sm: "h-4 w-4",
-    md: "h-5 w-5",
-    lg: "h-6 w-6",
+export function StarRating({ imdbID }: StarRatingProps) {
+  const { rating, setRating } = useMovieRating(imdbID)
+  const [hoverRating, setHoverRating] = useState(0)
+
+  const handleStarClick = (selectedRating: number) => {
+    setRating(selectedRating)
   }
 
   return (
-    <div className="flex items-center space-x-1">
-      {Array.from({ length: maxRating }, (_, index) => {
-        const starValue = index + 1
-        const isFilled = starValue <= rating
-
-        return (
-          <button
-            key={index}
-            type="button"
-            onClick={() => !readonly && onRatingChange?.(starValue)}
-            disabled={readonly}
-            className={cn(
-              "transition-colors",
-              !readonly && "hover:scale-110 cursor-pointer",
-              readonly && "cursor-default",
-            )}
-          >
-            <Star
-              className={cn(
-                sizeClasses[size],
-                isFilled ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground hover:text-yellow-400",
-              )}
-            />
-          </button>
-        )
-      })}
+    <div
+      className="flex items-center gap-1"
+      aria-label={`Rate this movie, current rating ${rating || "not rated"} out of 5 stars`}
+    >
+      {[1, 2, 3, 4, 5].map((starValue) => (
+        <Star
+          key={starValue}
+          className={cn(
+            "h-6 w-6 cursor-pointer transition-colors duration-200",
+            starValue <= rating || starValue <= hoverRating
+              ? "text-yellow-400 fill-yellow-400"
+              : "text-gray-300 dark:text-gray-600",
+          )}
+          onClick={() => handleStarClick(starValue)}
+          onMouseEnter={() => setHoverRating(starValue)}
+          onMouseLeave={() => setHoverRating(0)}
+          role="button"
+          aria-label={`${starValue} star${starValue > 1 ? "s" : ""}`}
+        />
+      ))}
+      {rating > 0 && <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">({rating} / 5)</span>}
     </div>
   )
 }

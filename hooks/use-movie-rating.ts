@@ -1,21 +1,49 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
-export function useMovieRating(movieId: string) {
-  const [rating, setRatingState] = useState(0)
+// Key for storing ratings in localStorage
+const LOCAL_STORAGE_KEY = "movieRatings"
 
+interface MovieRatings {
+  [imdbID: string]: number
+}
+
+export function useMovieRating(imdbID: string) {
+  const [rating, setRatingState] = useState<number>(0)
+
+  // Load rating from localStorage on component mount
   useEffect(() => {
-    const savedRating = localStorage.getItem(`movie-rating-${movieId}`)
-    if (savedRating) {
-      setRatingState(Number.parseInt(savedRating, 10))
+    if (typeof window !== "undefined") {
+      try {
+        const storedRatings = localStorage.getItem(LOCAL_STORAGE_KEY)
+        if (storedRatings) {
+          const ratings: MovieRatings = JSON.parse(storedRatings)
+          setRatingState(ratings[imdbID] || 0)
+        }
+      } catch (error) {
+        console.error("Failed to load ratings from localStorage:", error)
+      }
     }
-  }, [movieId])
+  }, [imdbID])
 
-  const setRating = (newRating: number) => {
-    setRatingState(newRating)
-    localStorage.setItem(`movie-rating-${movieId}`, newRating.toString())
-  }
+  // Update rating in state and localStorage
+  const setRating = useCallback(
+    (newRating: number) => {
+      setRatingState(newRating)
+      if (typeof window !== "undefined") {
+        try {
+          const storedRatings = localStorage.getItem(LOCAL_STORAGE_KEY)
+          const ratings: MovieRatings = storedRatings ? JSON.parse(storedRatings) : {}
+          ratings[imdbID] = newRating
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ratings))
+        } catch (error) {
+          console.error("Failed to save rating to localStorage:", error)
+        }
+      }
+    },
+    [imdbID],
+  )
 
   return { rating, setRating }
 }

@@ -1,11 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { StarRating } from "./star-rating"
-import { useMovieRating } from "@/hooks/use-movie-rating"
 import type { MovieDetail } from "@/types/movie"
 
 interface MovieDetailsProps {
@@ -13,99 +10,86 @@ interface MovieDetailsProps {
 }
 
 export function MovieDetails({ movie }: MovieDetailsProps) {
-  const { rating, setRating } = useMovieRating(movie.imdbID)
-
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <div className="grid md:grid-cols-[300px_1fr] gap-8">
-        <div className="space-y-4">
-          <div className="aspect-[2/3] relative overflow-hidden rounded-lg">
+    <Card className="w-full max-w-4xl mx-auto shadow-lg">
+      <CardHeader className="p-0">
+        <div className="relative w-full h-96 bg-gray-200 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
+          {movie.Poster && movie.Poster !== "N/A" ? (
             <Image
-              src={movie.Poster !== "N/A" ? movie.Poster : "/placeholder.svg?height=450&width=300&query=movie poster"}
+              src={movie.Poster || "/placeholder.svg"}
               alt={movie.Title}
-              fill
-              className="object-cover"
-              sizes="300px"
+              layout="fill"
+              objectFit="cover"
+              className="object-center"
               priority
             />
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Your Rating</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <StarRating rating={rating} onRatingChange={setRating} size="lg" />
-              {rating > 0 && (
-                <p className="text-sm text-muted-foreground mt-2">You rated this movie {rating} out of 5 stars</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-4xl font-bold mb-2">{movie.Title}</h1>
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <Badge variant="outline">{movie.Year}</Badge>
-              <Badge variant="outline">{movie.Rated}</Badge>
-              <Badge variant="outline">{movie.Runtime}</Badge>
-              {movie.imdbRating !== "N/A" && <Badge variant="secondary">IMDb: {movie.imdbRating}/10</Badge>}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {movie.Genre.split(", ").map((genre) => (
-                <Badge key={genre} variant="default">
-                  {genre}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Plot</h2>
-            <p className="text-muted-foreground leading-relaxed">{movie.Plot}</p>
-          </div>
-
-          <Separator />
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold mb-2">Director</h3>
-              <p className="text-muted-foreground">{movie.Director}</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Writer</h3>
-              <p className="text-muted-foreground">{movie.Writer}</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Actors</h3>
-              <p className="text-muted-foreground">{movie.Actors}</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Language</h3>
-              <p className="text-muted-foreground">{movie.Language}</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Country</h3>
-              <p className="text-muted-foreground">{movie.Country}</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Released</h3>
-              <p className="text-muted-foreground">{movie.Released}</p>
-            </div>
-          </div>
-
-          {movie.Awards !== "N/A" && (
-            <>
-              <Separator />
-              <div>
-                <h3 className="font-semibold mb-2">Awards</h3>
-                <p className="text-muted-foreground">{movie.Awards}</p>
-              </div>
-            </>
+          ) : (
+            <div className="text-gray-400 dark:text-gray-600 text-center p-4 text-xl">No Poster Available</div>
           )}
         </div>
-      </div>
-    </div>
+      </CardHeader>
+      <CardContent className="p-6 space-y-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+          <div>
+            <CardTitle className="text-3xl font-bold">{movie.Title}</CardTitle>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              {movie.Year} &bull; {movie.Rated} &bull; {movie.Runtime}
+            </p>
+            <p className="text-md text-gray-700 dark:text-gray-300 mt-1">
+              <span className="font-semibold">Genre:</span> {movie.Genre}
+            </p>
+          </div>
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <StarRating imdbID={movie.imdbID} />
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              IMDb Rating: {movie.imdbRating} ({movie.imdbVotes} votes)
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <p>
+              <span className="font-semibold">Director:</span> {movie.Director}
+            </p>
+            <p>
+              <span className="font-semibold">Writer:</span> {movie.Writer}
+            </p>
+            <p>
+              <span className="font-semibold">Actors:</span> {movie.Actors}
+            </p>
+          </div>
+          <div>
+            <p>
+              <span className="font-semibold">Language:</span> {movie.Language}
+            </p>
+            <p>
+              <span className="font-semibold">Country:</span> {movie.Country}
+            </p>
+            <p>
+              <span className="font-semibold">Awards:</span> {movie.Awards}
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-xl font-semibold mb-2">Plot Summary</h3>
+          <p className="text-gray-800 dark:text-gray-200 leading-relaxed">{movie.Plot}</p>
+        </div>
+
+        {movie.Ratings && movie.Ratings.length > 0 && (
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Ratings</h3>
+            <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
+              {movie.Ratings.map((rating, index) => (
+                <li key={index}>
+                  {rating.Source}: {rating.Value}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }

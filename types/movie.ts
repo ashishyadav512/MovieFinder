@@ -1,13 +1,24 @@
 export interface Movie {
-  imdbID: string
   Title: string
   Year: string
+  imdbID: string
   Type: string
   Poster: string
 }
 
+export interface MovieSearchResponse {
+  Search?: Movie[]
+  totalResults?: string
+  Response: "True" | "False"
+  Error?: string
+}
+
+export interface Rating {
+  Source: string
+  Value: string
+}
+
 export interface MovieDetail {
-  imdbID: string
   Title: string
   Year: string
   Rated: string
@@ -22,8 +33,16 @@ export interface MovieDetail {
   Country: string
   Awards: string
   Poster: string
+  Ratings: Rating[]
+  Metascore: string
   imdbRating: string
   imdbVotes: string
+  imdbID: string
   Type: string
-  Response: string
+  DVD: string
+  BoxOffice: string
+  Production: string
+  Website: string
+  Response: "True" | "False"
+  Error?: string
 }

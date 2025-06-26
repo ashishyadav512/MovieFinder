@@ -2,10 +2,9 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Movie } from "@/types/movie"
-import { motion } from "framer-motion" // Import motion
+import { motion } from "framer-motion"
 
 interface MovieCardProps {
   movie: Movie
@@ -14,34 +13,36 @@ interface MovieCardProps {
 export function MovieCard({ movie }: MovieCardProps) {
   return (
     <motion.div
-      whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)" }}
+      whileHover={{ scale: 1.03, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)" }}
       transition={{ duration: 0.2 }}
-      className="rounded-lg overflow-hidden"
     >
-      <Link href={`/movies/${movie.imdbID}`}>
-        <Card className="group cursor-pointer transition-all duration-300 hover:shadow-lg">
-          <CardContent className="p-0">
-            <div className="aspect-[2/3] relative overflow-hidden rounded-t-lg">
-              <Image
-                src={movie.Poster !== "N/A" ? movie.Poster : "/placeholder.svg?height=450&width=300&query=movie poster"}
-                alt={movie.Title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+      <Link href={`/movies/${movie.imdbID}`} aria-label={`View details for ${movie.Title}`}>
+        <Card className="h-full flex flex-col overflow-hidden rounded-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl">
+          <CardHeader className="p-0">
+            <div className="relative w-full h-64 bg-gray-200 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
+              {movie.Poster && movie.Poster !== "N/A" ? (
+                <Image
+                  src={movie.Poster || "/placeholder.svg"}
+                  alt={movie.Title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="transition-transform duration-300 ease-in-out group-hover:scale-105"
+                  priority={true} // Prioritize loading for initial cards
+                />
+              ) : (
+                <div className="text-gray-400 dark:text-gray-600 text-center p-4">No Poster Available</div>
+              )}
             </div>
-            <div className="p-4 space-y-2">
-              <h3 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors">
-                {movie.Title}
-              </h3>
-              <div className="flex items-center justify-between">
-                <Badge variant="secondary" className="text-xs">
-                  {movie.Year}
-                </Badge>
-                <span className="text-xs text-muted-foreground capitalize">{movie.Type}</span>
-              </div>
-            </div>
+          </CardHeader>
+          <CardContent className="flex-grow p-4">
+            <CardTitle className="text-lg font-semibold line-clamp-2 mb-2">{movie.Title}</CardTitle>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{movie.Year}</p>
           </CardContent>
+          <CardFooter className="p-4 pt-0">
+            <span className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-primary/10 text-primary">
+              {movie.Type}
+            </span>
+          </CardFooter>
         </Card>
       </Link>
     </motion.div>
