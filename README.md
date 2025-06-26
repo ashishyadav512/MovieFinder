@@ -18,6 +18,7 @@ MovieFinder is a modern web application built with Next.js, React, and **Redux T
 *   **Components**: shadcn/ui
 *   **State Management**: Redux Toolkit
 *   **API**: OMDb API
+*   **Other Notable Libraries**: `next-themes` for theme management, `react-resizable-panels` for UI layout.
 
 ## Setup Instructions
 

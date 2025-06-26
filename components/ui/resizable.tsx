@@ -1,55 +1,62 @@
 "use client"
 
-import { Fragment, type ReactNode } from "react"
+import * as React from "react"
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "react-resizable-panels"
+
 import { cn } from "@/lib/utils"
 
-const ResizablePanelGroupComponent = ResizablePanelGroup
-const ResizablePanelComponent = ResizablePanel
-const ResizableHandleComponent = ResizableHandle
+const ResizablePanelGroupRoot = React.forwardRef<
+  React.ElementRef<typeof ResizablePanelGroup>,
+  React.ComponentPropsWithoutRef<typeof ResizablePanelGroup>
+>(({ className, ...props }, ref) => (
+  <ResizablePanelGroup
+    ref={ref}
+    className={cn("flex h-full w-full data-[panel-group-direction=vertical]:flex-col", className)}
+    {...props}
+  />
+))
+ResizablePanelGroupRoot.displayName = ResizablePanelGroup.displayName
 
-/**
- * A thin wrapper around `react-resizable-panels` that behaves like the
- * original ShadCN example, but **does not** rely on the unpublished
- * `@radix-ui/react-resizable` package.
- *
- * Usage:
- * <Resizable direction="horizontal">
- *   <Sidebar />
- *   <Content />
- * </Resizable>
- */
-interface ResizableProps {
-  /** Split direction — default `"horizontal"` */
-  direction?: "horizontal" | "vertical"
-  /** Two or more children wrapped in resizable panels */
-  children: ReactNode[]
-  className?: string
+const ResizablePanelRoot = React.forwardRef<
+  React.ElementRef<typeof ResizablePanel>,
+  React.ComponentPropsWithoutRef<typeof ResizablePanel>
+>(({ className, ...props }, ref) => <ResizablePanel ref={ref} className={cn(className)} {...props} />)
+ResizablePanelRoot.displayName = ResizablePanel.displayName
+
+const ResizableHandleRoot = React.forwardRef<
+  React.ElementRef<typeof ResizableHandle>,
+  React.ComponentPropsWithoutRef<typeof ResizableHandle>
+>(({ className, withHandle, ...props }, ref) => (
+  <ResizableHandle
+    ref={ref}
+    className={cn(
+      "relative flex w-px items-center justify-center bg-border after:absolute after:h-full after:w-[100px] after:bg-background after:content-[''] data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:h-[100px] data-[panel-group-direction=vertical]:after:w-full",
+      className,
+    )}
+    {...props}
+  >
+    {withHandle && (
+      <div className="z-10 flex h-4 w-4 items-center justify-center rounded-sm border bg-background">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-2.5 w-2.5"
+        >
+          <path d={props.direction === "vertical" ? "M12 5v14" : "M5 12h14"} />
+        </svg>
+      </div>
+    )}
+  </ResizableHandle>
+))
+ResizableHandleRoot.displayName = ResizableHandle.displayName
+
+export {
+  ResizablePanelGroupRoot as ResizablePanelGroup,
+  ResizablePanelRoot as ResizablePanel,
+  ResizableHandleRoot as ResizableHandle,
 }
-
-export function Resizable({ direction = "horizontal", children, className }: ResizableProps) {
-  const isHorizontal = direction === "horizontal"
-
-  return (
-    <ResizablePanelGroupComponent
-      direction={direction}
-      className={cn("w-full h-full", isHorizontal ? "flex-row" : "flex-col", className)}
-    >
-      {children.map((child, idx) => (
-        <Fragment key={idx}>
-          <ResizablePanelComponent className="min-w-[10px] min-h-[10px]">{child}</ResizablePanelComponent>
-          {idx < children.length - 1 && (
-            <ResizableHandleComponent
-              className={cn(
-                "bg-muted transition-colors hover:bg-muted-foreground/40",
-                isHorizontal ? "w-1 cursor-col-resize" : "h-1 cursor-row-resize",
-              )}
-            />
-          )}
-        </Fragment>
-      ))}
-    </ResizablePanelGroupComponent>
-  )
-}
-
-export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
