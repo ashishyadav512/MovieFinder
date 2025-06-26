@@ -1,16 +1,16 @@
 "use client"
 
-import { Film } from "lucide-react"
-import { cn } from "@/lib/utils"
-import type { SVGProps } from "react"
-
-export interface MovieIconProps extends SVGProps<SVGSVGElement> {
-  size?: number
-}
+import type React from "react"
 
 /**
- * A simple movie-reel icon that can be reused anywhere in the UI.
+ * MovieIcon – simple wrapper around Lucide’s Film icon so Header (and anyone
+ * else) can `import { MovieIcon } from "@/components/movie-icon"`.
  */
-export function MovieIcon({ className, size = 24, ...props }: MovieIconProps) {
-  return <Film width={size} height={size} className={cn("text-primary", className)} aria-hidden="true" {...props} />
+import { Film } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+export interface MovieIconProps extends React.ComponentPropsWithoutRef<"svg"> {}
+
+export function MovieIcon({ className, ...rest }: MovieIconProps) {
+  return <Film aria-hidden="true" className={cn("h-8 w-8", className)} {...rest} />
 }

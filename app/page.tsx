@@ -1,40 +1,33 @@
-import Image from "next/image"
+"use client"
+
 import Link from "next/link"
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { MovieIcon } from "@/components/movie-icon"
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-12 bg-gradient-to-b from-background to-muted px-4 py-12 text-center">
-      {/* Logo & title */}
-      <div className="flex flex-col items-center gap-4">
-        <MovieIcon size={56} className="text-primary" />
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl">MovieFinder</h1>
-        <p className="max-w-xl text-lg text-muted-foreground">
-          Discover movie plots, ratings, posters, and more &mdash; powered by the OMDb&nbsp;API.
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-950 dark:to-zinc-900">
+      <div className="max-w-2xl space-y-6">
+        <MovieIcon className="mx-auto text-primary h-14 w-14" />
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
+          Discover&nbsp;
+          <span className="text-primary">Movies</span>&nbsp;Effortlessly
+        </h1>
+        <p className="text-lg sm:text-xl text-muted-foreground">
+          Search, rate, and explore detailed information on your favourite films with lightning-fast global search.
         </p>
+        <Button asChild size="lg" className="mx-auto">
+          <Link href="/movies">Explore Movies</Link>
+        </Button>
       </div>
-
-      {/* Hero illustration */}
-      <Image
+      {/* Decorative popcorn image */}
+      <img
         src="/popcorn-film-reels.png"
-        alt="Popcorn and film reels"
-        width={640}
-        height={360}
-        priority
-        className="rounded-lg shadow-xl"
+        alt=""
+        width={360}
+        height={240}
+        className="pointer-events-none mt-12 select-none opacity-70 dark:opacity-40"
       />
-
-      {/* Call-to-action */}
-      <Link
-        href="/movies"
-        className={buttonVariants({
-          size: "lg",
-          className: "px-8 py-6 text-lg",
-        })}
-      >
-        Explore Movies
-      </Link>
     </main>
   )
 }
