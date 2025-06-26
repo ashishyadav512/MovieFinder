@@ -1,7 +1,7 @@
 "use client"
 
 import { Fragment, type ReactNode } from "react"
-import { PanelGroup, Panel, PanelResizeHandle, type PanelGroupProps } from "react-resizable-panels"
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "react-resizable-panels"
 import { cn } from "@/lib/utils"
 
 /**
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
  *   <Content />
  * </Resizable>
  */
-interface ResizableProps extends Omit<PanelGroupProps, "direction" | "children"> {
+interface ResizableProps {
   /** Split direction — default `"horizontal"` */
   direction?: "horizontal" | "vertical"
   /** Two or more children wrapped in resizable panels */
@@ -23,20 +23,19 @@ interface ResizableProps extends Omit<PanelGroupProps, "direction" | "children">
   className?: string
 }
 
-export function Resizable({ direction = "horizontal", children, className, ...rest }: ResizableProps) {
+export function Resizable({ direction = "horizontal", children, className }: ResizableProps) {
   const isHorizontal = direction === "horizontal"
 
   return (
-    <PanelGroup
+    <ResizablePanelGroup
       direction={direction}
       className={cn("w-full h-full", isHorizontal ? "flex-row" : "flex-col", className)}
-      {...rest}
     >
       {children.map((child, idx) => (
         <Fragment key={idx}>
-          <Panel className="min-w-[10px] min-h-[10px]">{child}</Panel>
+          <ResizablePanel className="min-w-[10px] min-h-[10px]">{child}</ResizablePanel>
           {idx < children.length - 1 && (
-            <PanelResizeHandle
+            <ResizableHandle
               className={cn(
                 "bg-muted transition-colors hover:bg-muted-foreground/40",
                 isHorizontal ? "w-1 cursor-col-resize" : "h-1 cursor-row-resize",
@@ -45,6 +44,8 @@ export function Resizable({ direction = "horizontal", children, className, ...re
           )}
         </Fragment>
       ))}
-    </PanelGroup>
+    </ResizablePanelGroup>
   )
 }
+
+export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
