@@ -1,15 +1,12 @@
 "use client"
 
-import { Film } from "lucide-react"
-import type { LucideProps } from "lucide-react"
-import { cn } from "@/lib/utils"
-
 /**
- * MovieFinder brand icon – wraps Lucide’s Film icon.
+ * A simple movie icon component that re-exports Lucide’s “Clapperboard”.
+ * The Header imports it with:  import { MovieIcon } from '@/components/movie-icon'
  */
-export function MovieIcon({ className, ...props }: LucideProps) {
-  return <Film className={cn("h-6 w-6", className)} {...props} />
-}
+import { Clapperboard } from "lucide-react"
+import type { SVGProps } from "react"
 
-/* Optional default export so either import style works */
-export default MovieIcon
+export function MovieIcon(props: SVGProps<SVGSVGElement>) {
+  return <Clapperboard aria-hidden="true" {...props} />
+}
