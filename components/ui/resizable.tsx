@@ -4,6 +4,10 @@ import { Fragment, type ReactNode } from "react"
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "react-resizable-panels"
 import { cn } from "@/lib/utils"
 
+const ResizablePanelGroupComponent = ResizablePanelGroup
+const ResizablePanelComponent = ResizablePanel
+const ResizableHandleComponent = ResizableHandle
+
 /**
  * A thin wrapper around `react-resizable-panels` that behaves like the
  * original ShadCN example, but **does not** rely on the unpublished
@@ -27,15 +31,15 @@ export function Resizable({ direction = "horizontal", children, className }: Res
   const isHorizontal = direction === "horizontal"
 
   return (
-    <ResizablePanelGroup
+    <ResizablePanelGroupComponent
       direction={direction}
       className={cn("w-full h-full", isHorizontal ? "flex-row" : "flex-col", className)}
     >
       {children.map((child, idx) => (
         <Fragment key={idx}>
-          <ResizablePanel className="min-w-[10px] min-h-[10px]">{child}</ResizablePanel>
+          <ResizablePanelComponent className="min-w-[10px] min-h-[10px]">{child}</ResizablePanelComponent>
           {idx < children.length - 1 && (
-            <ResizableHandle
+            <ResizableHandleComponent
               className={cn(
                 "bg-muted transition-colors hover:bg-muted-foreground/40",
                 isHorizontal ? "w-1 cursor-col-resize" : "h-1 cursor-row-resize",
@@ -44,7 +48,7 @@ export function Resizable({ direction = "horizontal", children, className }: Res
           )}
         </Fragment>
       ))}
-    </ResizablePanelGroup>
+    </ResizablePanelGroupComponent>
   )
 }
 

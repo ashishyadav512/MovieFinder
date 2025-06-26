@@ -1,12 +1,12 @@
 # MovieFinder
 
-MovieFinder is a modern web application built with Next.js, React, and Redux Toolkit that allows users to search for movies, view detailed information, and manage their movie preferences. It leverages the OMDb API for movie data.
+MovieFinder is a modern web application built with Next.js, React, and **Redux Toolkit** that allows users to search for movies, view detailed information, and manage their movie preferences. It leverages the OMDb API for movie data.
 
 ## Features
 
 *   **Movie Search**: Quickly find movies by title.
 *   **Detailed Movie View**: Click on any movie to see its poster, plot, cast, ratings, and more.
-*   **Global State Management**: Utilizes Redux Toolkit for efficient and predictable state management across the application.
+*   **Global State Management with Redux Toolkit**: Utilizes Redux Toolkit for efficient, predictable, and scalable state management across the application, handling movie search results, loading states, and errors.
 *   **Responsive Design**: Optimized for various screen sizes, from mobile to desktop.
 *   **Dark Mode**: Toggle between light and dark themes for a personalized viewing experience.
 

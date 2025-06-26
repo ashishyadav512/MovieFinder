@@ -1,24 +1,25 @@
-"use client"
+import type React from "react"
 
-import type * as React from "react"
-import { Film } from "lucide-react"
-import { cn } from "@/lib/utils"
-
-export interface MovieIconProps extends React.SVGProps<SVGSVGElement> {
-  label?: string
-}
-
-/**
- * A small movie-reel icon + optional text label.
- * Used in the site header and landing page.
- */
-export function MovieIcon({ className, label = "MovieFinder", ...props }: MovieIconProps) {
+export function MovieIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <span className="inline-flex items-center gap-2 text-primary">
-      <Film {...props} className={cn("h-6 w-6 shrink-0", className)} aria-hidden="true" />
-      <span className="font-semibold text-lg tracking-tight">{label}</span>
-    </span>
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M7 3v18" />
+      <path d="M3 7h18" />
+      <path d="M3 11h18" />
+      <path d="M3 15h18" />
+      <path d="M17 3v18" />
+    </svg>
   )
 }
-
-MovieIcon.displayName = "MovieIcon"
