@@ -1,77 +1,125 @@
-# My Awesome Project
+# MovieFinder
 
-## Description
+MovieFinder is a modern web application built with Next.js, React, and Redux Toolkit that allows users to search for movies, view detailed information, and manage their movie preferences. It leverages the OMDb API for movie data.
 
-This is a brief description of my awesome project.
+## Features
 
-## Getting Started
+*   **Movie Search**: Quickly find movies by title.
+*   **Detailed Movie View**: Click on any movie to see its poster, plot, cast, ratings, and more.
+*   **Global State Management**: Utilizes Redux Toolkit for efficient and predictable state management across the application.
+*   **Responsive Design**: Optimized for various screen sizes, from mobile to desktop.
+*   **Dark Mode**: Toggle between light and dark themes for a personalized viewing experience.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+## Tech Stack
 
-### Prerequisites
+*   **Framework**: Next.js (App Router)
+*   **UI Library**: React
+*   **Styling**: Tailwind CSS
+*   **Components**: shadcn/ui
+*   **State Management**: Redux Toolkit
+*   **API**: OMDb API
 
-*   Node.js
-*   npm or yarn
+## Setup Instructions
 
-### Installation
+Follow these steps to get the MovieFinder project up and running on your local machine.
 
-1.  Clone the repository:
-
-    \`\`\`bash
-    git clone <repository_url>
-    \`\`\`
-
-2.  Navigate to the project directory:
-
-    \`\`\`bash
-    cd <project_directory>
-    \`\`\`
-
-3.  Install dependencies:
-
-    \`\`\`bash
-    npm install
-    # or
-    yarn install
-    \`\`\`
-
-4.  Create a `.env.local` file in the root directory and add the following environment variable:
-
-    \`\`\`
-    OMDB_API_KEY=your_omdb_api_key
-    \`\`\`
-
-    Replace `your_omdb_api_key` with your actual OMDB API key.
-
-### Running the Application
+### 1. Clone the Repository
 
 \`\`\`bash
-npm run dev
-# or
-yarn dev
+git clone <your-repository-url>
+cd movie-finder
 \`\`\`
 
-Open your browser and navigate to `http://localhost:3000`.
+### 2. Install Dependencies
 
-## Built With
+Using pnpm (recommended):
 
-*   [Next.js](https://nextjs.org/) - The React Framework for Production
-*   [OMDb API](https://www.omdbapi.com/) - The Open Movie Database API
+\`\`\`bash
+pnpm install
+\`\`\`
 
-## Contributing
+Or using npm:
 
-Please read `CONTRIBUTING.md` for details on our code of conduct, and the process for submitting pull requests to us.
+\`\`\`bash
+npm install
+\`\`\`
 
-## Versioning
+### 3. Environment Variables
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+Create a `.env.local` file in the root of your project and add your OMDb API key:
 
-## Authors
+\`\`\`
+OMDB_API_KEY=your_omdb_api_key_here
+\`\`\`
 
-*   **Your Name** - *Initial work* - [Your Website](https://yourwebsite.com)
+You can obtain a free API key from [OMDb API](http://www.omdbapi.com/).
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+### 4. Run the Development Server
 
-## License
+\`\`\`bash
+pnpm run dev
+# or
+npm run dev
+\`\`\`
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Usage
+
+1.  **Navigate to the Home Page**: The application will automatically redirect you to the `/movies` page.
+2.  **Search for Movies**: Use the search bar at the top of the `/movies` page to find movies by title.
+3.  **Filter by Year**: Refine your search results by selecting a release year from the dropdown.
+4.  **View Movie Details**: Click on any movie card to see its detailed information on a dedicated page.
+5.  **Toggle Theme**: Use the moon/sun icon in the header to switch between light and dark modes.
+
+## Project Structure
+
+\`\`\`
+.
+├── app/
+│   ├── layout.tsx             # Root layout for the application
+│   ├── page.tsx               # Home page (landing page)
+│   ├── movies/
+│   │   ├── page.tsx           # Movie listing and search page
+│   │   ├── loading.tsx        # Loading state for movie list
+│   │   └── [id]/
+│   │       ├── page.tsx       # Movie detail page
+│   │       └── MovieClientPage.tsx # Client component for movie details
+│   └── not-found.tsx          # Custom 404 page
+├── components/
+│   ├── ui/                    # shadcn/ui components
+│   ├── header.tsx             # Application header
+│   ├── movie-card.tsx         # Component for displaying individual movie cards
+│   ├── movie-details.tsx      # Component for displaying movie details
+│   ├── movie-icon.tsx         # SVG icon for the movie app
+│   ├── search-bar.tsx         # Search input and year filter
+│   ├── star-rating.tsx        # Star rating display
+│   ├── loading-spinner.tsx    # Loading spinner component
+│   └── theme-toggle.tsx       # Theme toggle button
+├── features/
+│   └── movies/
+│       └── moviesSlice.ts     # Redux slice for movie-related state
+├── hooks/
+│   ├── use-debounce.ts        # Custom hook for debouncing values
+│   ├── use-movie-rating.ts    # Custom hook for movie rating logic
+│   └── use-movie-search.ts    # Custom hook for movie search logic
+├── lib/
+│   ├── api.ts                 # API utility for OMDb calls
+│   ├── store.ts               # Redux store configuration
+│   ├── hooks.ts               # Typed Redux hooks (useAppDispatch, useAppSelector)
+│   ├── providers.tsx          # Redux store provider for Next.js
+│   └── utils.ts               # General utility functions
+├── public/                    # Static assets (images, icons)
+├── styles/
+│   └── globals.css            # Global Tailwind CSS styles
+├── tailwind.config.ts         # Tailwind CSS configuration
+└── tsconfig.json              # TypeScript configuration
+\`\`\`
+
+## Future Enhancements
+
+*   **User Authentication**: Implement user login/signup.
+*   **Watchlist Feature**: Allow users to save movies to a personal watchlist.
+*   **User Reviews**: Enable users to write and view movie reviews.
+*   **Advanced Filtering**: Add more filtering options (genre, director, etc.).
+*   **Pagination**: Implement pagination for search results.
