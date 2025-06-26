@@ -1,25 +1,16 @@
-import type React from "react"
-// This component provides a simple movie icon for the header.
-export function MovieIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" />
-      <path d="M7 3v18" />
-      <path d="M3 7h18" />
-      <path d="M3 11h18" />
-      <path d="M3 15h18" />
-      <path d="M17 3v18" />
-    </svg>
-  )
+"use client"
+
+import { Film } from "lucide-react"
+import { cn } from "@/lib/utils"
+import type { SVGProps } from "react"
+
+export interface MovieIconProps extends SVGProps<SVGSVGElement> {
+  size?: number
+}
+
+/**
+ * A simple movie-reel icon that can be reused anywhere in the UI.
+ */
+export function MovieIcon({ className, size = 24, ...props }: MovieIconProps) {
+  return <Film width={size} height={size} className={cn("text-primary", className)} aria-hidden="true" {...props} />
 }
