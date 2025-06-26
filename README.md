@@ -1,126 +1,145 @@
-# MovieFinder
+# 🎬 MovieFinder
 
-MovieFinder is a modern web application built with Next.js, React, and **Redux Toolkit** that allows users to search for movies, view detailed information, and manage their movie preferences. It leverages the OMDb API for movie data.
+**MovieFinder** is a modern, responsive web application built with **Next.js**, **React**, **TypeScript**, and **Redux Toolkit**. It allows users to search for movies, view detailed information, filter by release year, and rate them — all in a sleek UI with dark mode and smooth animations. It leverages the **OMDb API** for movie data.
 
-## Features
+---
 
-*   **Movie Search**: Quickly find movies by title.
-*   **Detailed Movie View**: Click on any movie to see its poster, plot, cast, ratings, and more.
-*   **Global State Management with Redux Toolkit**: Utilizes Redux Toolkit for efficient, predictable, and scalable state management across the application, handling movie search results, loading states, and errors.
-*   **Responsive Design**: Optimized for various screen sizes, from mobile to desktop.
-*   **Dark Mode**: Toggle between light and dark themes for a personalized viewing experience.
+## ✨ Features
 
-## Tech Stack
+- 🔍 **Movie Search** – Real-time search with debounced input  
+- 📅 **Year Filter** – Quickly filter results by release year  
+- 🎞️ **Movie Details** – View poster, title, year, rating, runtime, genre, director, writer, actors, plot, language, country, awards, and IMDb rating  
+- ⭐ **Client-Side Ratings** – 5-star rating stored in `localStorage`  
+- ⚛️ **Redux Toolkit** – Global state for search results, loading, and errors  
+- 🌙 **Dark Mode** – Toggle and persist your theme  
+- 🌀 **Framer Motion Animations** – Subtle transitions and hover effects  
+- 📱 **Responsive UI** – Looks great on mobile, tablet, and desktop  
+- ⚠️ **Loading & Error States** – Clean and informative UX  
 
-*   **Framework**: Next.js (App Router)
-*   **UI Library**: React
-*   **Styling**: Tailwind CSS
-*   **Components**: shadcn/ui
-*   **State Management**: Redux Toolkit
-*   **API**: OMDb API
-*   **Other Notable Libraries**: `next-themes` for theme management, `react-resizable-panels` for UI layout.
+---
 
-## Setup Instructions
+## 🚀 Tech Stack
 
-Follow these steps to get the MovieFinder project up and running on your local machine.
+- **Framework**: Next.js (App Router)  
+- **Language**: TypeScript  
+- **Styling**: Tailwind CSS  
+- **UI Library**: shadcn/ui  
+- **State Management**: Redux Toolkit  
+- **Icons**: Lucide React  
+- **Animations**: Framer Motion  
+- **Theme Handling**: next-themes  
+- **API**: OMDb API  
+- **Layout**: react-resizable-panels  
+- **Hooks**: Custom React Hooks  
+
+---
+
+## 🛠 Getting Started
+
+### Prerequisites
+
+- Node.js 18+  
+- Package manager: `pnpm`, `npm`, or `yarn`  
 
 ### 1. Clone the Repository
 
-\`\`\`bash
+```bash
 git clone <your-repository-url>
 cd movie-finder
-\`\`\`
-
-### 2. Install Dependencies
-
+2. Install Dependencies
 Using pnpm (recommended):
 
-\`\`\`bash
+bash
+Copy
+Edit
 pnpm install
-\`\`\`
-
 Or using npm:
 
-\`\`\`bash
+bash
+Copy
+Edit
 npm install
-\`\`\`
+3. Configure Environment Variables
+Create a .env.local file in the project root and add your OMDb API key:
 
-### 3. Environment Variables
-
-Create a `.env.local` file in the root of your project and add your OMDb API key:
-
-\`\`\`
+env
+Copy
+Edit
 OMDB_API_KEY=your_omdb_api_key_here
-\`\`\`
+Get your API key from https://www.omdbapi.com
 
-You can obtain a free API key from [OMDb API](http://www.omdbapi.com/).
-
-### 4. Run the Development Server
-
-\`\`\`bash
+4. Run the Development Server
+bash
+Copy
+Edit
 pnpm run dev
 # or
 npm run dev
-\`\`\`
+Then open http://localhost:3000 in your browser to view the app.
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+🧭 Usage Guide
+🔍 Navigate to /movies to search for movies
 
-## Usage
+📅 Use the year dropdown to filter results
 
-1.  **Navigate to the Home Page**: The application will automatically redirect you to the `/movies` page.
-2.  **Search for Movies**: Use the search bar at the top of the `/movies` page to find movies by title.
-3.  **Filter by Year**: Refine your search results by selecting a release year from the dropdown.
-4.  **View Movie Details**: Click on any movie card to see its detailed information on a dedicated page.
-5.  **Toggle Theme**: Use the moon/sun icon in the header to switch between light and dark modes.
+🎬 Click on a movie to view full details
 
-## Project Structure
+⭐ Rate the movie with a 5-star system (stored in localStorage)
 
-\`\`\`
+🌙 Toggle light/dark mode with the theme switch in the header
+
+📁 Project Structure
+perl
+Copy
+Edit
 .
 ├── app/
-│   ├── layout.tsx             # Root layout for the application
-│   ├── page.tsx               # Home page (landing page)
-│   ├── movies/
-│   │   ├── page.tsx           # Movie listing and search page
-│   │   ├── loading.tsx        # Loading state for movie list
-│   │   └── [id]/
-│   │       ├── page.tsx       # Movie detail page
-│   │       └── MovieClientPage.tsx # Client component for movie details
-│   └── not-found.tsx          # Custom 404 page
+│   ├── layout.tsx               # Root layout
+│   ├── page.tsx                 # Landing page
+│   ├── not-found.tsx            # 404 page
+│   └── movies/
+│       ├── page.tsx             # Movie search page
+│       ├── loading.tsx          # Loading placeholder
+│       └── [id]/
+│           ├── page.tsx         # Movie detail page
+│           └── MovieClientPage.tsx # Client component for details
 ├── components/
-│   ├── ui/                    # shadcn/ui components
-│   ├── header.tsx             # Application header
-│   ├── movie-card.tsx         # Component for displaying individual movie cards
-│   ├── movie-details.tsx      # Component for displaying movie details
-│   ├── movie-icon.tsx         # SVG icon for the movie app
-│   ├── search-bar.tsx         # Search input and year filter
-│   ├── star-rating.tsx        # Star rating display
-│   ├── loading-spinner.tsx    # Loading spinner component
-│   └── theme-toggle.tsx       # Theme toggle button
+│   ├── ui/                      # shadcn/ui components
+│   ├── header.tsx               # App header
+│   ├── movie-card.tsx           # Movie card
+│   ├── movie-details.tsx        # Movie info section
+│   ├── movie-icon.tsx           # Movie app icon
+│   ├── search-bar.tsx           # Input + filter
+│   ├── star-rating.tsx          # Star rating logic
+│   ├── loading-spinner.tsx      # Spinner
+│   └── theme-toggle.tsx         # Dark/light toggle
 ├── features/
 │   └── movies/
-│       └── moviesSlice.ts     # Redux slice for movie-related state
+│       └── moviesSlice.ts       # Redux slice for movie state
 ├── hooks/
-│   ├── use-debounce.ts        # Custom hook for debouncing values
-│   ├── use-movie-rating.ts    # Custom hook for movie rating logic
-│   └── use-movie-search.ts    # Custom hook for movie search logic
+│   ├── use-debounce.ts          # Debounced input
+│   ├── use-movie-rating.ts      # Star rating hook
+│   └── use-movie-search.ts      # Search logic
 ├── lib/
-│   ├── api.ts                 # API utility for OMDb calls
-│   ├── store.ts               # Redux store configuration
-│   ├── hooks.ts               # Typed Redux hooks (useAppDispatch, useAppSelector)
-│   ├── providers.tsx          # Redux store provider for Next.js
-│   └── utils.ts               # General utility functions
-├── public/                    # Static assets (images, icons)
+│   ├── api.ts                   # OMDb API handler
+│   ├── store.ts                 # Redux store setup
+│   ├── hooks.ts                 # Typed Redux hooks
+│   ├── providers.tsx            # Redux provider for Next
+│   └── utils.ts                 # Helpers
+├── public/                      # Static assets
 ├── styles/
-│   └── globals.css            # Global Tailwind CSS styles
-├── tailwind.config.ts         # Tailwind CSS configuration
-└── tsconfig.json              # TypeScript configuration
-\`\`\`
+│   └── globals.css              # Tailwind global styles
+├── tailwind.config.ts           # Tailwind config
+└── tsconfig.json                # TypeScript config
+🔮 Future Enhancements
+🔐 User Authentication – Login/signup functionality
 
-## Future Enhancements
+📑 Watchlist – Save movies to favorites
 
-*   **User Authentication**: Implement user login/signup.
-*   **Watchlist Feature**: Allow users to save movies to a personal watchlist.
-*   **User Reviews**: Enable users to write and view movie reviews.
-*   **Advanced Filtering**: Add more filtering options (genre, director, etc.).
-*   **Pagination**: Implement pagination for search results.
+✍️ User Reviews – Leave and view ratings/reviews
+
+🎛️ Advanced Filtering – Genre, director, language, etc.
+
+📄 Pagination – Handle large result sets efficiently
+
+🧪 Testing – Unit and integration tests with Vitest or Jest
