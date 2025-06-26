@@ -185,7 +185,5 @@ The MovieFinder application can be further extended with the following features:
 *   **Accessibility Improvements**: Continuously enhance accessibility features to ensure the application is usable by everyone.
 *   **Testing Suite**: Implement comprehensive unit, integration, and end-to-end tests to ensure reliability and prevent regressions.
 
-## 📄 License
 
-This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
 ```
