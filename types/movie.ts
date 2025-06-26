@@ -13,7 +13,7 @@ export interface MovieSearchResponse {
   Error?: string
 }
 
-export interface Rating {
+export interface MovieRating {
   Source: string
   Value: string
 }
@@ -33,7 +33,7 @@ export interface MovieDetail {
   Country: string
   Awards: string
   Poster: string
-  Ratings: Rating[]
+  Ratings: MovieRating[]
   Metascore: string
   imdbRating: string
   imdbVotes: string

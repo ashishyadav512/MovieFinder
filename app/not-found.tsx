@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] text-center">
-      <h1 className="text-6xl font-bold text-primary">404</h1>
-      <p className="mt-4 text-xl text-gray-700 dark:text-gray-300">Page Not Found</p>
-      <p className="mt-2 text-gray-500 dark:text-gray-400">
-        The movie you are looking for might have been removed or is temporarily unavailable.
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-100px)] text-center px-4">
+      <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
+      <h2 className="text-3xl font-semibold text-foreground mb-4">Page Not Found</h2>
+      <p className="text-lg text-muted-foreground mb-8">
+        The page you are looking for does not exist or has been moved.
       </p>
-      <Button asChild className="mt-6">
-        <Link href="/movies">Go to Movies List</Link>
-      </Button>
+      <Link href="/movies" passHref>
+        <Button size="lg">Go to Movies</Button>
+      </Link>
     </div>
   )
 }

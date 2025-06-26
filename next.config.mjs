@@ -7,17 +7,30 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['m.media-amazon.com'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'm.media-amazon.com',
-        port: '',
-        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imdb-api.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.omdbapi.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
       },
     ],
     unoptimized: true,
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

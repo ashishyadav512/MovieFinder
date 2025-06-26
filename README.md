@@ -1,30 +1,69 @@
-# Next.js Movie App
+# Movie Search App
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+This is a simple movie search application built with Next.js and the OMDb API.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/ashishydv096gmailcoms-projects/v0-next-js-movie-app)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/0FCXUepF7E3)
+## Features
 
-## Overview
+*   Search for movies by title.
+*   View movie details.
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Technologies Used
+
+*   Next.js
+*   React
+*   OMDb API
+
+## Environment Variables
+
+To run this application, you will need to set the following environment variables:
+
+*   OMDB_API_KEY – Your OMDb API key (add it in the Vercel Dashboard).
+
+## Setup
+
+1.  Clone the repository:
+
+    \`\`\`bash
+    git clone <repository_url>
+    \`\`\`
+
+2.  Install dependencies:
+
+    \`\`\`bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    \`\`\`
+
+3.  Set up your environment variables. You can do this by creating a `.env.local` file in the root of your project:
+
+    \`\`\`bash
+    # Example - DO NOT INCLUDE THIS IN YOUR ACTUAL .env.local FILE
+    # OMDB_API_KEY=your_omdb_api_key
+    \`\`\`
+
+    Alternatively, if you are deploying to Vercel, you can set the environment variables in the Vercel dashboard.
+
+4.  Run the development server:
+
+    \`\`\`bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    \`\`\`
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Deployment
 
-Your project is live at:
+This application can be deployed to Vercel.
 
-**[https://vercel.com/ashishydv096gmailcoms-projects/v0-next-js-movie-app](https://vercel.com/ashishydv096gmailcoms-projects/v0-next-js-movie-app)**
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=<repository_url>)
 
-## Build your app
+## Contributing
 
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/0FCXUepF7E3](https://v0.dev/chat/projects/0FCXUepF7E3)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Contributions are welcome! Please feel free to submit a pull request.
